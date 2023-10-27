@@ -1,5 +1,5 @@
-const client_id = 'b32433e96abe4d69841aace1a47ed6b2';
-const client_secret = 'd2523e0bdaf040ccbaf0f81a65ead71d';
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
 export const getToken = async () => {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -42,3 +42,4 @@ export const fetchTracks = async (query) => {
   const data = await response.json();
   return data.tracks.items;
 };
+

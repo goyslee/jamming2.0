@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <h1>Jammming</h1>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
       <div className="App-content">
         <SearchResults />
         <Playlist />
