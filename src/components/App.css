@@ -1,0 +1,78 @@
+.App {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.App-content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.left-section, .right-section {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.left-section {
+  border-right: 1px solid #ccc;
+}
+
+.my-playlist, .playlists, .create-playlist {
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #1DB954; /* Spotify Green */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #1AA34A;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Playlists Section Title */
+.playlists h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #1DB954; /* Spotify Green */
+  padding-bottom: 10px;
+}
+
+/* Individual Playlist Style */
+.playlists ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.playlists li {
+  padding: 10px 15px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.playlists li:hover {
+  background-color: #e9e9e9;
+}

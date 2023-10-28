@@ -1,16 +1,17 @@
 // Track.js
 import React from 'react';
 
-function Track() {
+function Track({ track, onAdd }) {
   return (
     <div className="Track">
       <div className="Track-information">
-        <h3>Track Name</h3>
-        <p>Artist | Album</p>
+        <h3>{track.name}</h3>
+        <p>{track.artist} | {track.album}</p>
       </div>
-      <button className="Track-action">+ or -</button>
+      <button className="Track-action" onClick={() => onAdd(track)}>+</button>
     </div>
   );
 }
+
 
 export default Track;

@@ -40,3 +40,13 @@ export const fetchTracks = async (query, accessToken) => {
     return []; // Return an empty array in case of an error
   }
 };
+
+export const createPlaylist = async (userId, playlistName, accessToken) => {
+  spotifyApi.setAccessToken(accessToken);
+  return spotifyApi.createPlaylist(userId, { name: playlistName });
+};
+
+export const addTracksToPlaylist = async (playlistId, trackUris, accessToken) => {
+  spotifyApi.setAccessToken(accessToken);
+  return spotifyApi.addTracksToPlaylist(playlistId, trackUris);
+};
