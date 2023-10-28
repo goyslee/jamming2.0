@@ -1,5 +1,13 @@
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+import SpotifyWebApi from 'spotify-web-api-js';
+
+const spotifyApi = new SpotifyWebApi();
+
+const client_id = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+const client_secret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
+
+export const setAccessToken = (token) => {
+  spotifyApi.setAccessToken(token);
+};
 
 export const getToken = async () => {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -15,31 +23,20 @@ export const getToken = async () => {
   return data.access_token;
 };
 
-export const fetchTracks = async (query) => {
-  let token = await getToken();
-  let response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=10`, {
-    headers: {
-      'Authorization': 'Bearer ' + token
-    }
-  });
+const SPOTIFY_API_ENDPOINT = 'https://api.spotify.com/v1/search';
 
-  // Check for a 401 status code (Unauthorized)
-  if (response.status === 401) {
-    // Token has expired. Fetch a new token and retry the request.
-    token = await getToken();
-    response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=10`, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    });
+export const fetchTracks = async (query, accessToken) => {
+  try {
+    spotifyApi.setAccessToken(accessToken);
+    const response = await spotifyApi.searchTracks(query);
+    return response.tracks.items.map(track => ({
+      id: track.id,
+      name: track.name,
+      artist: track.artists[0].name,
+      album: track.album.name,
+      uri: track.uri
+    }));
+  } catch (error) {
+    console.error("Error fetching tracks:", error);
   }
-
-  // Handle other potential errors
-  if (!response.ok) {
-    throw new Error(`Spotify API request failed with status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.tracks.items;
 };
-
