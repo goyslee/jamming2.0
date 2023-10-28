@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { fetchTracks } from '../services/SpotifyServices';
-import { createPlaylist, addTracksToPlaylist } from '../services/SpotifyServices';
+import { createPlaylist, addTracksToPlaylist, unfollowSpotifyPlaylist } from '../services/SpotifyServices';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import Playlist from './Playlist';
@@ -17,6 +17,7 @@ function App() {
    const [playlistName, setPlaylistName] = useState('');
   const [playlists, setPlaylists] = useState([]);
 
+  
   useEffect(() => {
     const hash = window.location.hash
       .substring(1)
@@ -115,7 +116,23 @@ function App() {
 
   const removeTrack = (track) => {
   setPlaylistTracks(prevTracks => prevTracks.filter(savedTrack => savedTrack.id !== track.id));
+  };
+
+
+  
+  const handleUnfollowPlaylist = async (playlistId) => {
+  try {
+    // Call the Spotify API to delete the playlist
+    await unfollowSpotifyPlaylist(playlistId, accessToken);
+
+    // Update the state to remove the deleted playlist
+    const updatedPlaylists = playlists.filter(playlist => playlist.id !== playlistId);
+    setPlaylists(updatedPlaylists);
+  } catch (error) {
+    console.error("Error deleting playlist:", error);
+  }
 };
+
 
   
   //  const handleCreatePlaylist = () => {
@@ -145,7 +162,7 @@ function App() {
                     onSave={savePlaylist}
                     onRemove={removeTrack}
                     playlistName={playlistName} 
-  
+                    accessToken={accessToken} 
                     onNameChange={setPlaylistName}
                     onTrackChange={setPlaylistTracks}
                   />
@@ -155,11 +172,15 @@ function App() {
                 
               <div className="playlists">
               <h2>Your Playlists on Spotify</h2>
-              <ul>
-                {playlists.map((playlist, index) => (
-                  <li key={index}>{playlist.name}</li>
-                ))}
-              </ul>
+<ul >
+  {playlists.map((playlist, index) => (
+    <li key={index}>
+      {playlist.name}
+      <button  onClick={() => handleUnfollowPlaylist(playlist.id)}>Delete</button>
+    </li>
+  ))}
+</ul>
+
         </div>
 
               </div>

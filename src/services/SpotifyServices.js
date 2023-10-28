@@ -50,3 +50,20 @@ export const addTracksToPlaylist = async (playlistId, trackUris, accessToken) =>
   spotifyApi.setAccessToken(accessToken);
   return spotifyApi.addTracksToPlaylist(playlistId, trackUris);
 };
+
+export const unfollowSpotifyPlaylist = async (playlistId, accessToken) => {
+    const endpoint = `https://api.spotify.com/v1/playlists/${playlistId}/followers`;
+
+    const response = await fetch(endpoint, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Error unfollowing playlist: ${response.statusText}`);
+    }
+}
+
+
