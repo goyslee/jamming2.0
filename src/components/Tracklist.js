@@ -1,12 +1,15 @@
-// Tracklist.js 
 import React from 'react';
-import Track from './Track';
 
-function Tracklist() {
+function Tracklist({ tracks }) {
   return (
     <div className="Tracklist">
-      <Track />
-      {/* Add more <Track /> components as needed */}
+      {Array.isArray(tracks) && tracks.map(track => (
+        <div key={track.id}>
+          <h3>{track.name}</h3>
+          <p>{track.artist}</p>
+          <p>{track.album}</p>
+        </div>
+      ))}
     </div>
   );
 }

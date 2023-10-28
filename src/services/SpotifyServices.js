@@ -23,12 +23,11 @@ export const getToken = async () => {
   return data.access_token;
 };
 
-const SPOTIFY_API_ENDPOINT = 'https://api.spotify.com/v1/search';
-
 export const fetchTracks = async (query, accessToken) => {
   try {
     spotifyApi.setAccessToken(accessToken);
     const response = await spotifyApi.searchTracks(query);
+    console.log("Raw Spotify Response:", response); // Log the raw response
     return response.tracks.items.map(track => ({
       id: track.id,
       name: track.name,
@@ -38,5 +37,6 @@ export const fetchTracks = async (query, accessToken) => {
     }));
   } catch (error) {
     console.error("Error fetching tracks:", error);
+    return []; // Return an empty array in case of an error
   }
 };

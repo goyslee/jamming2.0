@@ -8,7 +8,8 @@ function SearchBar({ onSearch }) {
     e.preventDefault();
     if (query) {
       try {
-        await onSearch(query);
+          const results = await onSearch(query);
+          console.log("Search Results:", results);
       } catch (error) {
         console.error("Error fetching tracks:", error);
         // Handle the error appropriately here, e.g., show an error message to the user
