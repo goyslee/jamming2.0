@@ -2,7 +2,15 @@
 import React from 'react';
 import Tracklist from './Tracklist';
 
-function Playlist({ playlistTracks, onRemove, onSave, playlistName, onNameChange }) {
+function Playlist({ 
+    playlistTracks, 
+    onRemove, 
+    onSave, 
+    playlistName, 
+    onNameChange, 
+    onBackToPlaylists, 
+    isEditing 
+}) {
   const handleNameChange = (e) => {
     onNameChange(e.target.value);
   };
@@ -18,9 +26,10 @@ function Playlist({ playlistTracks, onRemove, onSave, playlistName, onNameChange
         tracks={playlistTracks}
         onRemove={onRemove}
         isPlaylist={true}
-          />
-          <br></br>
+      />
+      <br></br>
       <button className="SaveButton" onClick={onSave}>SAVE TO SPOTIFY</button>
+      {isEditing && <button className="BackButton" onClick={onBackToPlaylists}>BACK TO PLAYLISTS</button>}
     </div>
   );
 }

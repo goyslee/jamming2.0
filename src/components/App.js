@@ -16,6 +16,10 @@ function App() {
     const [playlistTracks, setPlaylistTracks] = useState([]);
     const [playlistName, setPlaylistName] = useState('');
     const [playlists, setPlaylists] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(false);
+
+
 
     useEffect(() => {
         const hash = window.location.hash
@@ -75,6 +79,27 @@ function App() {
         }
     };
 
+    const onExitEditView = () => {
+      setPlaylistTracks([]); // Clear the current tracks
+      setPlaylistName('');   // Clear the current playlist name
+    };
+    
+    const fetchUserPlaylists = async () => {
+  if (!accessToken) return; // Ensure you have the access token
+
+  spotifyApi.setAccessToken(accessToken); // Set the access token for Spotify API
+
+  try {
+    const response = await spotifyApi.getUserPlaylists();
+    if (response && response.items) {
+      setPlaylists(response.items);
+    }
+  } catch (error) {
+    console.error("Error fetching user playlists:", error);
+  }
+};
+
+  
     const savePlaylist = async () => {
         const trackURIs = playlistTracks.map(track => track.uri);
         try {
@@ -84,7 +109,10 @@ function App() {
             await addTracksToPlaylist(playlistId, trackURIs, accessToken);
             alert('Playlist saved to Spotify!');
             setPlaylistName('');
-        } catch (error) {
+            setPlaylistTracks([]);  // Clear the list of added songs
+            setForceUpdate(prev => !prev);  // Force a re-render
+            fetchUserPlaylists(); 
+        }  catch (error) {
             console.error('Error saving playlist:', error.response ? error.response.data : error.message);
         }
     };
@@ -105,7 +133,8 @@ function App() {
             uri: item.track.uri
         }));
         setPlaylistTracks(extractedTracks);
-        setPlaylistName(playlistData.name);
+      setPlaylistName(playlistData.name);
+      setIsEditing(true); 
     } catch (error) {
         console.error("Error fetching playlist data:", error);
     }
@@ -122,6 +151,13 @@ function App() {
         }
     };
 
+    const handleBackToPlaylists = () => {
+      setPlaylistTracks([]);  // Clear the tracks of the currently edited playlist
+      setPlaylistName('');    // Reset the playlist name
+      setIsEditing(false);    // Set isEditing back to false
+    };
+
+  
     return (
         <div className="App">
             {!accessToken ? (
@@ -144,6 +180,9 @@ function App() {
                                     accessToken={accessToken} 
                                     onNameChange={setPlaylistName}
                                     onTrackChange={setPlaylistTracks}
+                                    onExitEditView={onExitEditView}
+                                    isEditing={isEditing}
+                                    onBackToPlaylists={handleBackToPlaylists}
                                 />
                             </div>
                             <div className="playlists">
