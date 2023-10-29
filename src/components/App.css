@@ -1,3 +1,25 @@
+/*App.css*/
+input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    outline: none;
+    transition: border-color 0.3s ease;
+
+    /* Placeholder color */
+    ::placeholder {
+        color: #a9a9a9;
+    }
+
+    /* On focus style */
+    &:focus {
+        border-color: #007BFF;
+    }
+}
+
 .App {
   font-family: Arial, sans-serif;
   padding: 20px;
