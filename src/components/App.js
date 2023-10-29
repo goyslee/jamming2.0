@@ -18,6 +18,8 @@ function App() {
     const [playlists, setPlaylists] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [forceUpdate, setForceUpdate] = useState(false);
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
+
 
 
 
@@ -100,22 +102,38 @@ function App() {
 };
 
   
-    const savePlaylist = async () => {
-        const trackURIs = playlistTracks.map(track => track.uri);
-        try {
-            const userId = await spotifyApi.getMe().then(response => response.id);
+const savePlaylist = async () => {
+    const trackURIs = playlistTracks.map(track => track.uri);
+
+    try {
+        const userId = await spotifyApi.getMe().then(response => response.id);
+
+        if (selectedPlaylistId) {
+            // Update existing playlist
+            await spotifyApi.changePlaylistDetails(selectedPlaylistId, { name: playlistName });
+            await spotifyApi.replaceTracksInPlaylist(selectedPlaylistId, trackURIs);
+            alert('Playlist updated on Spotify!');
+        } else {
+            // Create a new playlist
             const newPlaylist = await createPlaylist(userId, playlistName, accessToken);
             const playlistId = newPlaylist.id;
             await addTracksToPlaylist(playlistId, trackURIs, accessToken);
             alert('Playlist saved to Spotify!');
-            setPlaylistName('');
-            setPlaylistTracks([]);  // Clear the list of added songs
-            setForceUpdate(prev => !prev);  // Force a re-render
-            fetchUserPlaylists(); 
-        }  catch (error) {
-            console.error('Error saving playlist:', error.response ? error.response.data : error.message);
         }
-    };
+
+        // Reset states
+        setPlaylistName('');
+        setPlaylistTracks([]);
+        setSelectedPlaylistId(null);
+        setIsEditing(false);
+        fetchUserPlaylists();  // Refresh the list of playlists
+
+    } catch (error) {
+        console.error('Error saving/updating playlist:', error.response ? error.response.data : error.message);
+    }
+};
+
+
 
     const removeTrack = (track) => {
         setPlaylistTracks(prevTracks => prevTracks.filter(savedTrack => savedTrack.id !== track.id));
@@ -135,6 +153,7 @@ function App() {
         setPlaylistTracks(extractedTracks);
       setPlaylistName(playlistData.name);
       setIsEditing(true); 
+      setSelectedPlaylistId(playlistId);
     } catch (error) {
         console.error("Error fetching playlist data:", error);
     }
