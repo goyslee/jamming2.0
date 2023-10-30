@@ -16,14 +16,14 @@ input {
 
     /* On focus style */
     &:focus {
-        border-color: #007BFF;
+        border-color: #C63D2F; /* Deeper accent for focus */
     }
 }
 
 .App {
   font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #FFBB5C;
 }
 
 .App-content {
@@ -35,13 +35,13 @@ input {
 .left-section, .right-section {
   flex: 1;
   padding: 20px;
-  background-color: #fff;
+  background-color: #FFBB5C;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .left-section {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #C63D2F; /* Deeper accent for border */
 }
 
 .my-playlist, .playlists, .create-playlist {
@@ -50,7 +50,7 @@ input {
 
 button {
   padding: 10px 15px;
-  background-color: #1DB954; /* Spotify Green */
+  background-color: #FF9B50;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -59,12 +59,12 @@ button {
 }
 
 button:hover {
-  background-color: #1AA34A;
+  background-color: #E25E3E; /* New color for button hover */
 }
 
 input {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #C63D2F; /* Deeper accent for input border */
   border-radius: 5px;
   width: 100%;
   margin-bottom: 10px;
@@ -75,7 +75,7 @@ input {
   font-size: 24px;
   margin-bottom: 20px;
   color: #333;
-  border-bottom: 2px solid #1DB954; /* Spotify Green */
+  border-bottom: 2px solid #FF9B50;
   padding-bottom: 10px;
 }
 
@@ -88,7 +88,7 @@ input {
 .playlists li {
   padding: 10px 15px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #C63D2F; /* Deeper accent for list items */
   border-radius: 5px;
   margin-bottom: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -96,12 +96,12 @@ input {
 }
 
 .playlists li:hover {
-  background-color: #e9e9e9;
+  background-color: #E25E3E; /* New color for list item hover */
 }
 
 .playlists button {
   margin-left: 10px;
-  background-color: #e74c3c; /* Red color */
+  background-color: #FF9B50;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
@@ -110,5 +110,5 @@ input {
 }
 
 .playlists button:hover {
-  background-color: #c0392b; /* Darker red on hover */
+  background-color: #E25E3E; /* New color for button hover in playlists */
 }

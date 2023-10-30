@@ -57,7 +57,7 @@ function App() {
 
     const handleLogin = () => {
         const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-        const REDIRECT_URI = 'http://localhost:3000/callback';
+        const REDIRECT_URI = 'https://main--inquisitive-blini-8e8b3d.netlify.app/callback';
         const scopes = 'user-read-private user-read-email playlist-modify-private playlist-modify-public';
         window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(scopes)}&response_type=token`;
     };
