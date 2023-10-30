@@ -176,12 +176,23 @@ const savePlaylist = async () => {
       setIsEditing(false);    // Set isEditing back to false
     };
 
+    const handleLogout = () => {
+      setAccessTokenState(null); // Clear the access token from state
+      window.location = 'https://www.spotify.com/logout/'; // Redirect to Spotify logout
+    };
+
   
     return (
-        <div className="App">
+      <div className="App">
+        {accessToken && (
+            <button className="LogoutButton" onClick={handleLogout} style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                Logout
+            </button>
+        )}
             {!accessToken ? (
                 <button onClick={handleLogin}>Login with Spotify</button>
-            ) : (
+        ) : (
+            
                 <>
                     <h1>Jammming 2.0</h1>
                     <SearchBar onSearch={handleSearch} />
