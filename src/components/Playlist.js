@@ -29,8 +29,8 @@ function Playlist({
       />
       <br></br>
       <button className="SaveButton" onClick={onSave}>
-  {isEditing ? "UPDATE PLAYLIST ON SPOTIFY" : "SAVE TO SPOTIFY"}
-</button>
+        {isEditing ? "UPDATE PLAYLIST ON SPOTIFY" : "SAVE TO SPOTIFY"}
+    </button>
       {isEditing && <button className="BackButton" onClick={onBackToPlaylists}>BACK TO PLAYLISTS</button>}
     </div>
   );
