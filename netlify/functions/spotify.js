@@ -10,6 +10,8 @@ exports.handler = async function(event, context) {
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type"
             }
         });
         return {
