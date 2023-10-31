@@ -2,6 +2,7 @@
 // App.js
 import React, { useState, useEffect } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
+// import crypto from 'crypto';
 import { fetchTracks, createPlaylist, addTracksToPlaylist, unfollowSpotifyPlaylist } from '../services/SpotifyServices';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
@@ -17,8 +18,9 @@ function App() {
     const [playlistName, setPlaylistName] = useState('');
     const [playlists, setPlaylists] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [forceUpdate, setForceUpdate] = useState(false);
+  // const [forceUpdate, setForceUpdate] = useState(false);
   const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
+  
 
 
 
@@ -55,6 +57,9 @@ function App() {
         fetchUserPlaylists();
     }, [accessToken]);
 
+  
+
+    
     const handleLogin = () => {
         const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
         const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000/callback';
