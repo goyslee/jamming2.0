@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 exports.handler = async function(event, context) {
-    const endpoint = "https://api.spotify.com/v1/"; // Spotify API endpoint
+    const endpoint = "https://accounts.spotify.com/api/;";  
     const path = event.queryStringParameters.path; // Get the desired path from query parameters
     const token = event.headers.authorization; // Get the Spotify token from headers
 
