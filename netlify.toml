@@ -5,5 +5,4 @@
   # Define which paths this should apply to
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.spotify.com https://www.google-analytics.com https://*.ingest.sentry.io/ https://stats.g.doubleclick.net; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://stats.g.doubleclick.net; img-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net; https://stats.g.doubleclick.net/j/collect; frame-src 'self';"
-
+    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.spotify.com https://www.google-analytics.com https://*.ingest.sentry.io/ https://stats.g.doubleclick.net https://o22381.ingest.sentry.io; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://stats.g.doubleclick.net; img-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net; frame-src 'self';"
