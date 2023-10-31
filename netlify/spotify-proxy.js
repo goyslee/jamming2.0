@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 exports.handler = async function(event, context) {
     const endpoint = "https://api.spotify.com/v1/"; // Spotify API endpoint
