@@ -2,7 +2,10 @@
   functions = "netlify/functions"
 
 [[headers]]
-  # Define which paths this should apply to
   for = "/*"
   [headers.values]
     Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.spotify.com https://www.google-analytics.com https://*.ingest.sentry.io/ https://stats.g.doubleclick.net https://o22381.ingest.sentry.io; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://stats.g.doubleclick.net; img-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net; frame-src 'self';"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), magnetometer=(), gyroscope=(), fullscreen=(self)"
