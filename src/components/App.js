@@ -22,7 +22,12 @@ function App() {
   const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
   
 
-
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.httpEquiv = "Content-Security-Policy";
+    meta.content = "default-src gap://ready file://* *; style-src 'self' http://* https://* 'unsafe-inline'; script-src 'self' http://* https://* 'unsafe-inline' 'unsafe-eval'";
+    document.getElementsByTagName('head')[0].appendChild(meta);
+  }, []);
 
 
     useEffect(() => {
