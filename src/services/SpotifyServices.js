@@ -17,7 +17,9 @@ export const getToken = async () => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
+        'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret),
+      "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type"
     },
     body: 'grant_type=client_credentials'
   });
