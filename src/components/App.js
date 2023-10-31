@@ -42,7 +42,9 @@ function App() {
         
         if (hash.access_token) {
             setAccessTokenState(hash.access_token);
-            window.location.hash = '';  // Clear the URL hash
+            window.history.replaceState(null, null, ' ');
+
+  // Clear the URL hash
         }
     }, []);
 
