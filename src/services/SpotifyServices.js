@@ -10,7 +10,7 @@ export const setAccessToken = (token) => {
 };
 
 export const getToken = async () => {
-  const response = await fetch('https://accounts.spotify.com/api/token', {
+  const response = await fetch(process.env.REACT_APP_SPOTIFY_SERVICES_URL_1, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
