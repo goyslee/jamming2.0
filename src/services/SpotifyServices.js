@@ -18,8 +18,6 @@ export const getToken = async () => {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret),
-      "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type"
     },
     body: 'grant_type=client_credentials'
   });
@@ -51,7 +49,7 @@ if (isLocal) {
 } else {
     // Call the serverless function
      try {
-    const response = await fetch("/.netlify/functions/spotify", {
+    const response = await fetch(`/.netlify/functions/spotify?path=search?q=${query}&type=track`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${accessToken}`
