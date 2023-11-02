@@ -90,8 +90,8 @@ function App() {
       setPlaylistName('');   // Clear the current playlist name
     };
     
-    const fetchUserPlaylists = async () => {
-  if (!accessToken) return; // Ensure you have the access token
+  //   const fetchUserPlaylists = async () => {
+  // if (!accessToken) return; // Ensure you have the access token
 
   spotifyApi.setAccessToken(accessToken); // Set the access token for Spotify API
 
