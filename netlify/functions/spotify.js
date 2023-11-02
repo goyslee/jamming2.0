@@ -9,7 +9,7 @@ exports.handler = async function(event, context) {
     try {
         const response = await axios.get(`${endpoint}${path}`, {
             headers: {
-                'Authorization': token,
+                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
                
             }
