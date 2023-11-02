@@ -1,2 +1,3 @@
 /*
-  Content-Security-Policy: default-src 'self'; connect-src 'self' https://*.spotify.com https://www.google-analytics.com https://*.ingest.sentry.io/; img-src 'self' https://stats.g.doubleclick.net; script-src 'self' 'unsafe-inline' https://*.google-analytics.com;
+  Content-Security-Policy: default-src 'self'; connect-src 'self' https://api.spotify.com https://spotify.com https://www.google-analytics.com https://ingest.sentry.io https://stats.g.doubleclick.net https://o22381.ingest.sentry.io;
+  # ... other headers ...
