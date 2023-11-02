@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const handler = async (event) => {
-  const { code } = JSON.parse(event.body || '{}'); 
+  const { code } = JSON.parse(event.body);
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   const CLIENT_SECRET = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
   const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
@@ -24,10 +24,14 @@ const handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify(response.data),
     };
-  } catch (error) {
+   } catch (error) {
+    console.error('Error exchanging authorization code:', error);
     return {
-      statusCode: error.response.status,
-      body: JSON.stringify(error.response.data),
+      statusCode: error.response ? error.response.status : 500,
+      body: JSON.stringify({
+        error: error.response ? error.response.data.error : 'Internal Server Error',
+        error_description: error.response ? error.response.data.error_description : 'An unexpected error occurred'
+      }),
     };
   }
 };
