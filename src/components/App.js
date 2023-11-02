@@ -20,10 +20,6 @@ function App() {
   const [isEditing, setIsEditing] = useState(false);
   // const [forceUpdate, setForceUpdate] = useState(false);
   const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
-  
-
-  
-
 
     useEffect(() => {
         const hash = window.location.hash
