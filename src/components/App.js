@@ -90,7 +90,20 @@ function App() {
       setPlaylistName('');   // Clear the current playlist name
     };
     
+    const fetchUserPlaylists_noeff = async () => {
+  if (!accessToken) return; // Ensure you have the access token
 
+  spotifyApi.setAccessToken(accessToken); // Set the access token for Spotify API
+
+  try {
+    const response = await spotifyApi.getUserPlaylists();
+    if (response && response.items) {
+      setPlaylists(response.items);
+    }
+  } catch (error) {
+    console.error("Error fetching user playlists:", error);
+  }
+};
 
   
 const savePlaylist = async () => {
@@ -117,7 +130,7 @@ const savePlaylist = async () => {
         setPlaylistTracks([]);
         setSelectedPlaylistId(null);
         setIsEditing(false);
-         // Refresh the list of playlists
+        fetchUserPlaylists_noeff();  // Refresh the list of playlists
 
     } catch (error) {
         console.error('Error saving/updating playlist:', error.response ? error.response.data : error.message);
