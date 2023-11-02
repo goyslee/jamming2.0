@@ -29,7 +29,7 @@ export const getToken = async () => {
 const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 export const fetchTracks = async (query, accessToken) => {
-if (isLocal) {
+
     // Directly call the Spotify API or use mock data
     try {
     spotifyApi.setAccessToken(accessToken);
@@ -46,31 +46,6 @@ if (isLocal) {
     console.error("Error fetching tracks:", error);
     return []; // Return an empty array in case of an error
   }
-} else {
-    // Call the serverless function
-     try {
-    const response = await fetch(`/.netlify/functions/spotify?path=search?q=${query}&type=track`, {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      },
-      qs: {
-        path: `search?q=${query}&type=track`
-      }
-    });
-    const data = await response.json();
-    return data.tracks.items.map(track => ({
-      id: track.id,
-      name: track.name,
-      artist: track.artists[0].name,
-      album: track.album.name,
-      uri: track.uri
-    }));
-  } catch (error) {
-    console.error("Error fetching tracks:", error);
-    return [];
-  }
-}
 
 
   
