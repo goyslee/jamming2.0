@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const handler = async (event) => {
-  const { code } = JSON.parse(event.body);
+  const { code } = JSON.parse(event.body || '{}'); 
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   const CLIENT_SECRET = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
   const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
