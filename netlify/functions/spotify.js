@@ -1,8 +1,8 @@
 //spotify.js
 // In your Netlify function (e.g., spotify-token-exchange.js)
-const axios = require('axios');
+import axios from 'axios';
 
-exports.handler = async (event) => {
+const handler = async (event) => {
   const { code } = JSON.parse(event.body);
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   const CLIENT_SECRET = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
@@ -31,3 +31,5 @@ exports.handler = async (event) => {
     };
   }
 };
+
+module.exports = { handler };
