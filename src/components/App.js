@@ -86,37 +86,56 @@ function App() {
         const scopes = 'user-read-private user-read-email playlist-modify-private playlist-modify-public';
         window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(scopes)}&response_type=token`;
     };
-
-  const handleSearch = async (query) => {
-      setSearchQuery(query); 
-        if (accessToken) {
-            try {
-                const results = await fetchTracks(query, accessToken);
-                const filteredResults = results.filter(track => !playlistTracks.some(playlistTrack => playlistTrack.id === track.id));
-                setTracks(filteredResults);
-            } catch (error) {
-                console.error("Error fetching tracks:", error);
-            }
-        } else {
-            console.error("No access token available");
+const handleSearch = async (query, updatedPlaylistTracks = playlistTracks, trackToAddBack = null) => {
+  setSearchQuery(query);
+  if (accessToken) {
+    try {
+      // If the query has changed or we're adding a track back, perform a new search
+      if (query !== searchQuery || trackToAddBack) {
+        const results = await fetchTracks(query, accessToken);
+        let filteredResults = results.filter(track => 
+          !updatedPlaylistTracks.some(playlistTrack => playlistTrack.id === track.id)
+        );
+        // If we have a track to add back, do so if it matches the query
+        if (trackToAddBack && (query === '' || trackToAddBack.name.toLowerCase().includes(query.toLowerCase()))) {
+          filteredResults = [trackToAddBack, ...filteredResults];
         }
-    };
+        setTracks(filteredResults);
+      } else {
+        // If the query is the same and we're not adding a track back, just filter the existing tracks
+        const filteredResults = tracks.filter(track => 
+          !updatedPlaylistTracks.some(playlistTrack => playlistTrack.id === track.id)
+        );
+        setTracks(filteredResults);
+      }
+    } catch (error) {
+      console.error("Error fetching tracks:", error);
+    }
+  } else {
+    console.error("No access token available");
+  }
+};
 
-   const addTrack = (track) => {
+
+const addTrack = (track) => {
   if (!playlistTracks.some(savedTrack => savedTrack.id === track.id)) {
     setPlaylistTracks(prevTracks => [...prevTracks, track]);
-    // Filter the search results to remove the added track
+    // Immediately filter the search results to remove the added track
     setTracks(prevTracks => prevTracks.filter(searchTrack => searchTrack.id !== track.id));
   }
 };
 
 const removeTrack = (track) => {
-  setPlaylistTracks(prevTracks => prevTracks.filter(savedTrack => savedTrack.id !== track.id));
-  // Add the removed track back to the search results if it matches the current search query
-  if (searchQuery && track.name.toLowerCase().includes(searchQuery.toLowerCase())) {
-    setTracks(prevTracks => [...prevTracks, track]);
-  }
+  setPlaylistTracks(prevTracks => {
+    // Filter out the track that is being removed
+    const updatedTracks = prevTracks.filter(savedTrack => savedTrack.id !== track.id);
+    // Call handleSearch with the updated playlist and the track to add back to the search results
+    handleSearch(searchQuery, updatedTracks, track);
+    return updatedTracks;
+  });
 };
+
+
 
 
     const onExitEditView = () => {
