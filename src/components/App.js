@@ -17,6 +17,14 @@ function App() {
     const [playlists, setPlaylists] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+// ...
+
+
+
+
 
     const updateAccessToken = (token) => {
         setAccessTokenState(token);
@@ -33,11 +41,14 @@ function App() {
                 return initial;
             }, {});
         
-        if (hash.access_token) {
+            if (hash.access_token) {
             updateAccessToken(hash.access_token);
             window.history.pushState(null, null, ' '); // Clear the URL hash
-        }
-    }, []);
+            setTimeout(() => {
+          setAccessTokenState(null); // This will clear the token when it's supposed to expire
+        }, parseInt(hash.expires_in) * 1000); // Convert to milliseconds
+      }
+        }, []);
 
   useEffect(() => {
        const fetchUserPlaylists = async () => {
@@ -68,18 +79,21 @@ function App() {
         }
     };
 
-    const handleLogin = () => {
+  const handleLogin = () => {
+        
         const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
         const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI || process.env.REACT_APP_REDIRECT_URI1;
         const scopes = 'user-read-private user-read-email playlist-modify-private playlist-modify-public';
         window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(scopes)}&response_type=token`;
     };
 
-    const handleSearch = async (query) => {
+  const handleSearch = async (query) => {
+      setSearchQuery(query); 
         if (accessToken) {
             try {
                 const results = await fetchTracks(query, accessToken);
-                setTracks(results);
+                const filteredResults = results.filter(track => !playlistTracks.some(playlistTrack => playlistTrack.id === track.id));
+                setTracks(filteredResults);
             } catch (error) {
                 console.error("Error fetching tracks:", error);
             }
@@ -88,11 +102,22 @@ function App() {
         }
     };
 
-    const addTrack = (track) => {
-        if (!playlistTracks.some(savedTrack => savedTrack.id === track.id)) {
-            setPlaylistTracks(prevTracks => [...prevTracks, track]);
-        }
-    };
+   const addTrack = (track) => {
+  if (!playlistTracks.some(savedTrack => savedTrack.id === track.id)) {
+    setPlaylistTracks(prevTracks => [...prevTracks, track]);
+    // Filter the search results to remove the added track
+    setTracks(prevTracks => prevTracks.filter(searchTrack => searchTrack.id !== track.id));
+  }
+};
+
+const removeTrack = (track) => {
+  setPlaylistTracks(prevTracks => prevTracks.filter(savedTrack => savedTrack.id !== track.id));
+  // Add the removed track back to the search results if it matches the current search query
+  if (searchQuery && track.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+    setTracks(prevTracks => [...prevTracks, track]);
+  }
+};
+
 
     const onExitEditView = () => {
         setPlaylistTracks([]);
@@ -101,30 +126,32 @@ function App() {
         setSelectedPlaylistId(null);
     };
 
-    const savePlaylist = async () => {
-        const trackURIs = playlistTracks.map(track => track.uri);
-        try {
-            const userId = await spotifyApi.getMe().then(response => response.id);
-            if (selectedPlaylistId) {
-                await spotifyApi.changePlaylistDetails(selectedPlaylistId, { name: playlistName });
-                await spotifyApi.replaceTracksInPlaylist(selectedPlaylistId, trackURIs);
-                alert('Playlist updated on Spotify!');
-            } else {
-                const newPlaylist = await createPlaylist(userId, playlistName, accessToken);
-                const playlistId = newPlaylist.id;
-                await addTracksToPlaylist(playlistId, trackURIs, accessToken);
-                alert('Playlist saved to Spotify!');
-            }
-            onExitEditView();
-            fetchUserPlaylists_noeff();
-        } catch (error) {
-            console.error('Error saving/updating playlist:', error);
+  const savePlaylist = async () => {
+    setIsLoading(true); // Start loading
+      const trackURIs = playlistTracks.map(track => track.uri);
+      try {
+        const userId = await spotifyApi.getMe().then(response => response.id);
+        if (selectedPlaylistId) {
+          await spotifyApi.changePlaylistDetails(selectedPlaylistId, { name: playlistName });
+          await spotifyApi.replaceTracksInPlaylist(selectedPlaylistId, trackURIs);
+          alert('Playlist updated on Spotify!');
+        } else {
+          const newPlaylist = await createPlaylist(userId, playlistName, accessToken);
+          const playlistId = newPlaylist.id;
+          await addTracksToPlaylist(playlistId, trackURIs, accessToken);
+          alert('Playlist saved to Spotify!');
         }
+        onExitEditView();
+        await fetchUserPlaylists_noeff();
+        if (searchQuery) {
+          await handleSearch(searchQuery); // Refresh the search results
+        }
+      } catch (error) {
+        console.error('Error saving/updating playlist:', error);
+      }
+      setIsLoading(false); // End loading
     };
 
-    const removeTrack = (track) => {
-        setPlaylistTracks(prevTracks => prevTracks.filter(savedTrack => savedTrack.id !== track.id));
-    };
 
     const handleEditPlaylist = async (playlistId) => {
         try {
@@ -186,6 +213,8 @@ function App() {
                         </div>
                 <div className="right-section">
                   <div className="playlists">
+                    {isLoading && <div>Loading...</div>}
+
                         <h2>Your Playlists on Spotify</h2>
                         <ul>
                             {playlists.map((playlist, index) => (

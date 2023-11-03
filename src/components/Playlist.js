@@ -28,8 +28,10 @@ function Playlist({
         )}
           </div>
           {isEditing && (
-        <h3>You are editing:
-          <h4>{playlistName}</h4>
+              <h3>You are editing:
+                  <br></br>
+                  <h4>{playlistName}</h4>
+                  <br></br>
           playlist.
         </h3>
       )}
