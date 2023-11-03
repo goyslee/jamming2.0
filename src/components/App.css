@@ -229,6 +229,41 @@ button:hover {
 }
 
 
+.landing-section {
+  text-align: center;
+  padding: 50px;
+  background-color: #1e1e1e; /* Dark background for the landing section */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+.landing-section h1 {
+  margin-bottom: 20px;
+  color: #bb86fc; /* Accent color for the heading */
+}
+
+.landing-section p {
+  margin-bottom: 30px;
+  line-height: 1.6;
+  color: #cccccc; /* Lighter text color for the paragraph */
+}
+
+.LoginButton {
+  padding: 10px 20px;
+  background-color: #1db954; /* Spotify green for the login button */
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.LoginButton:hover {
+  background-color: #1ed760; /* A lighter green for the button on hover */
+}
 
 
 /* Responsive Design */
