@@ -1,19 +1,22 @@
 //Tracklist.js
+//Tracklist.js
 import React from 'react';
 
 function Tracklist({ tracks, onAdd, onRemove, isPlaylist }) {
   return (
     <div className="Tracklist">
       {Array.isArray(tracks) && tracks.map(track => (
-        <div key={track.id}>
-          <h3>{track.name}</h3>
-          <p>{track.artist}</p>
-          <p>{track.album}</p>
-          {isPlaylist ? (
-            <button onClick={() => onRemove(track)}>Remove</button>
-          ) : (
-            <button onClick={() => onAdd(track)}>Add</button>
-          )}
+        <div key={track.id} className="Track">
+          <div className="Track-details">
+            <h3>{track.name}</h3>
+            <p>{track.artist} | {track.album}</p>
+          </div>
+          <button 
+            className="Track-action" 
+            onClick={isPlaylist ? () => onRemove(track) : () => onAdd(track)}
+          >
+            {isPlaylist ? '-' : '+'}
+          </button>
         </div>
       ))}
     </div>
@@ -21,6 +24,3 @@ function Tracklist({ tracks, onAdd, onRemove, isPlaylist }) {
 }
 
 export default Tracklist;
-
-
-

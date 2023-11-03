@@ -17,21 +17,34 @@ function Playlist({
 
   return (
     <div className="Playlist">
+      <div className="Playlist-Controls">
+        <button className="SaveButton" onClick={onSave}>
+          {isEditing ? "UPDATE PLAYLIST ON SPOTIFY" : "SAVE TO SPOTIFY"}
+        </button>
+        {isEditing && (
+          <button className="BackButton" onClick={onBackToPlaylists}>
+            BACK TO PLAYLISTS
+          </button>
+        )}
+          </div>
+          {isEditing && (
+        <h3>You are editing:
+          <h4>{playlistName}</h4>
+          playlist.
+        </h3>
+      )}
+          <br></br>
       <input 
         value={playlistName} 
         onChange={handleNameChange} 
         placeholder="Enter playlist name" 
+        name={playlistName}
       />
       <Tracklist
         tracks={playlistTracks}
         onRemove={onRemove}
         isPlaylist={true}
       />
-      <br></br>
-      <button className="SaveButton" onClick={onSave}>
-        {isEditing ? "UPDATE PLAYLIST ON SPOTIFY" : "SAVE TO SPOTIFY"}
-    </button>
-      {isEditing && <button className="BackButton" onClick={onBackToPlaylists}>BACK TO PLAYLISTS</button>}
     </div>
   );
 }

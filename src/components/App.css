@@ -1,5 +1,4 @@
 /*App.css*/
-/*App.css*/
 * {
     box-sizing: border-box;
     margin: 0;
@@ -37,6 +36,10 @@ input {
     }
 }
 
+h4 {
+color:#bb86fc;
+}
+
 .App {
     max-width: 1200px;
     margin: 40px auto;
@@ -52,18 +55,29 @@ input {
     margin-top: 20px;
 }
 
-.left-section {
-  flex: 1;
+.left-section,
+.middle-section,
+.right-section {
     padding: 20px;
     background-color: #222;
     border-radius: 10px;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
-
-  border-right: 1px solid #333333;;
-  max-height: 500px; /* Adjust this value based on your layout */
-  overflow-y: auto; /* Enables scrolling */
+    overflow-y: auto; /* Enables scrolling if content is too long */
+    max-height: calc(100vh - 80px); /* Adjust based on your header/footer */
 }
 
+.left-section {
+    flex: 1;
+}
+
+.middle-section {
+    flex: 2; /* Takes twice as much space as the other two sections */
+}
+
+.right-section {
+    flex: 1;
+    border-left: 1px solid #333333; /* Added for visual separation, if needed */
+}
 
 button {
     padding: 10px 20px;
@@ -122,13 +136,121 @@ button:hover {
     color: #121212;
 }
 
+.Playlist-Controls {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    margin-bottom: 20px; /* Adds space between the buttons and the input field */
+    border-bottom: 1px solid #333; /* Adds a separator line */
+}
+
+.SaveButton,
+.BackButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #1db954; /* Spotify green for the save button */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.BackButton {
+    background-color: #b2b2b2; /* A neutral color for the back button */
+}
+
+.SaveButton:hover,
+.BackButton:hover {
+    background-color: #1ed760; /* A lighter green for the save button on hover */
+}
+
+.BackButton:hover {
+    background-color: #a0a0a0; /* A lighter grey for the back button on hover */
+}
+
+/* You might want to add some responsiveness to the buttons */
+.Tracklist {
+    /* Add styles if needed */
+}
+
+.Track {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #202020; /* Adjust the color to fit your theme */
+    color: #fff;
+    border-radius: 4px;
+}
+
+.Track-details {
+    flex-grow: 1;
+}
+
+.Track-action {
+    
+    margin-left: 20px; /* Adds some space between the details and the button */
+    font-size: 14px;
+    background-color: transparent;
+    color: #ffffff;
+    padding: 5px 10px;
+    border: 1px solid #ffffff; /* Border to match text color */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.Track-action:hover {
+    background-color: #ffffff;
+    color: #121212;
+}
+
+/* If the button is for removal, you might want to change the color */
+.isPlaylist .Track-action {
+    background-color: #e0245e; /* A red color for remove button */
+}
+
+.isPlaylist .Track-action:hover {
+    background-color: #fc3768; /* A lighter red on hover */
+}
+
+.playlists li span {
+  cursor: pointer; /* Changes the cursor to a pointer when hovering over the playlist names */
+  /* Add any additional styling for the playlist names here */
+}
+
+.playlists li span:hover {
+  /* You can add additional hover effects here, like a color change or underline */
+  text-decoration: underline; /* Example hover effect */
+}
+
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .App-content {
         flex-direction: column;
     }
 
-    .left-section, .right-section {
+    .left-section,
+    .middle-section,
+    .right-section {
         width: 100%;
+        max-height: 50vh; /* Adjust the height on mobile devices */
+        margin-bottom: 20px; /* Add space between stacked sections */
+    }
+
+    .Playlist-Controls {
+        flex-direction: column;
+        align-items: stretch; /* Makes buttons full width */
+    }
+
+    .SaveButton,
+    .BackButton {
+        margin-bottom: 10px; /* Adds space between the buttons when stacked */
     }
 }

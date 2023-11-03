@@ -184,7 +184,22 @@ function App() {
                         <div className="left-section">
                             <SearchResults tracks={tracks} onAdd={addTrack} />
                         </div>
-                        <div className="right-section">
+                <div className="right-section">
+                  <div className="playlists">
+                        <h2>Your Playlists on Spotify</h2>
+                        <ul>
+                            {playlists.map((playlist, index) => (
+                                <li key={index}>
+                                    <span onClick={() => handleEditPlaylist(playlist.id)}>
+                                        {playlist.name}
+                                    </span>
+                                    <button onClick={() => handleUnfollowPlaylist(playlist.id)}>Delete</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+                  <div className="middle-section">
                             <div className="my-playlist">
                                 <Playlist
                                     playlistTracks={playlistTracks}
@@ -198,19 +213,7 @@ function App() {
                                     onBackToPlaylists={handleBackToPlaylists}
                                 />
                             </div>
-                            <div className="playlists">
-                                <h2>Your Playlists on Spotify</h2>
-                                <ul>
-                                    {playlists.map((playlist, index) => (
-                                        <li key={index}>
-                                            <span onClick={() => handleEditPlaylist(playlist.id)}>
-                                                {playlist.name}
-                                            </span>
-                                            <button onClick={() => handleUnfollowPlaylist(playlist.id)}>Delete</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                            
                         </div>
                     </div>
                 </>
