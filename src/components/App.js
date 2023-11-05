@@ -151,8 +151,17 @@ function App() {
       const updatedTracks = prevTracks.filter(
         (savedTrack) => savedTrack.id !== track.id,
       );
-      // Call handleSearch with the updated playlist and the track to add back to the search results
-      handleSearch(searchQuery, updatedTracks, track);
+
+      // Only call handleSearch if there is a search query and the removed track matches the search query
+      if (
+        searchQuery &&
+        (track.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          track.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          track.album.toLowerCase().includes(searchQuery.toLowerCase()))
+      ) {
+        handleSearch(searchQuery, updatedTracks, track);
+      }
+
       return updatedTracks;
     });
   };
